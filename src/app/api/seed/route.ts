@@ -213,7 +213,7 @@ const dummyData = [
     title: "Wearable Tech: The next frontier for cyber espionage",
     section: "style",
     tag: "Tech",
-    imageUrl: "https://images.unsplash.com/photo-1510273010697-3ad99ffdd310?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?q=80&w=800&auto=format&fit=crop",
     excerpt: "Your smartwatch knows your heart rate, but it might also be listening to your board meetings."
   },
   {
@@ -227,7 +227,7 @@ const dummyData = [
     title: "The Deep Sea Cables: Protecting the physical internet",
     section: "visual",
     tag: "Infrastructure",
-    imageUrl: "https://images.unsplash.com/photo-1551733938-22246758d61c?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=1200&auto=format&fit=crop",
     description: "A look at the vulnerable underwater networks that carry 99% of global data traffic."
   }
 ];
@@ -249,8 +249,30 @@ export async function GET(request: Request) {
     // Clear old data
     await Post.deleteMany({});
     
+    const validImages = [
+      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=1200&auto=format&fit=crop"
+    ];
+    
+    const seededData = dummyData.map((post, index) => {
+      if (!post.imageUrl) {
+        return { ...post, imageUrl: validImages[index % validImages.length] };
+      }
+      return post;
+    });
+
     // Insert new dummy data
-    await Post.insertMany(dummyData);
+    await Post.insertMany(seededData);
     
     return NextResponse.json({ success: true, message: "The Indianberg database flooded with cyber-crime news!" });
   } catch (error: any) {

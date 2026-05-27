@@ -10,7 +10,7 @@
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
   
-  --animate-marquee: marquee 60s linear infinite;
+  --animate-marquee: marquee 250s linear infinite;
 
   @keyframes marquee {
     from { transform: translateX(0); }

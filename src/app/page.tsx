@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getPostsBySection } from "@/lib/posts";
+import { getPostsBySection, getUniqueTags } from "@/lib/posts";
 import { ArrowRight, Play, Eye, Flame } from "lucide-react";
 import { AdBanner } from "@/components/ads/AdBanner";
 import { StockTicker } from "@/components/layout/StockTicker";
@@ -30,8 +30,8 @@ export default async function Home() {
   ]);
 
   const hero = mainFeed[0];
-  const secondaryHero = mainFeed[1];
-  const sideStories = mainFeed.slice(2, 7);
+  const centerStories = mainFeed.slice(1, 4);
+  const sideStories = mainFeed.slice(4, 11);
   const ledgerStories = ledger.slice(0, 4);
 
   // High-reliability fallback images (IDs that are guaranteed to be up)
@@ -132,29 +132,29 @@ export default async function Home() {
               </article>
             )}
 
-            {secondaryHero && (
-              <article className="group pt-8 lg:pt-10 border-t-2 border-black dark:border-white flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-6 lg:gap-8">
+            {centerStories.map((story: any, i: number) => (
+              <article key={i} className="group pt-8 lg:pt-10 border-t-2 border-black dark:border-white flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-6 lg:gap-8 mb-8 lg:mb-10 last:mb-0">
                 <div className="flex-1">
-                  <Link href={`/article/${secondaryHero._id}`}>
+                  <Link href={`/article/${story._id}`}>
                     <div className="relative aspect-[4/3] mb-4 overflow-hidden bg-zinc-100 dark:bg-zinc-900">
                       <Image
-                        src={secondaryHero.imageUrl || STABLE_IMG}
-                        alt={secondaryHero.title}
+                        src={story.imageUrl || STABLE_IMG}
+                        alt={story.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
                     <h3 className="font-serif font-black text-[22px] lg:text-[24px] leading-[1.1] mb-3 group-hover:text-red-700 transition-colors">
-                      {secondaryHero.title}
+                      {story.title}
                     </h3>
                     <p className="text-[14px] lg:text-[15px] text-zinc-500 dark:text-zinc-400 leading-relaxed line-clamp-4">
-                      {secondaryHero.excerpt || secondaryHero.description}
+                      {story.excerpt || story.description}
                     </p>
                   </Link>
                 </div>
               </article>
-            )}
+            ))}
           </div>
 
           {/* RIGHT: OPINIONS (Editorial board style) */}
@@ -162,7 +162,7 @@ export default async function Home() {
             <div className="flex items-center justify-between border-b-2 border-red-700 pb-2 mb-6 lg:mb-8">
               <h3 className="text-[11px] lg:text-[12px] font-black uppercase tracking-[0.2em] text-red-700">Opinions</h3>
             </div>
-            {opinions.slice(0, 6).map((post: any, i: number) => (
+            {opinions.slice(0, 15).map((post: any, i: number) => (
               <article key={i} className="group border-b border-zinc-100 dark:border-zinc-900 pb-5 lg:pb-6 last:border-0 flex items-start gap-4 lg:gap-5">
                 <div className="flex-1">
                   <Link href={`/article/${post._id}`}>
